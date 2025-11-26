@@ -2,19 +2,20 @@ import csv
 import os
 import inquirer
 
-FOLDER_DASAR = os.path.dirname(os.path.abspath(__file__))
-FILE_USERS = os.path.join(FOLDER_DASAR, "data", "users.csv")
+dataDIR = 'data'
+dfusers = f'{dataDIR}/users.csv'
+
 
 def baca_users():
-    if not os.path.exists(FILE_USERS):
+    if not os.path.exists(dfusers):
         return []
-    with open(FILE_USERS, "r", encoding="utf-8") as f:
+    with open(dfusers, "r", encoding="utf-8") as f:
         return list(csv.DictReader(f))
 
 def simpan_user_baru(username, password, role):
     data = baca_users()
     fieldnames = ["username", "password", "role"]
-    with open(FILE_USERS, "w", newline="", encoding="utf-8") as f:
+    with open(dfusers, "w", newline="", encoding="utf-8") as f:
         writer = csv.DictWriter(f, fieldnames=fieldnames)
         writer.writeheader()
         data.append({"username": username, "password": password, "role": role})
@@ -80,7 +81,7 @@ def mulai_registrasi():
         print("\nRegistrasi user berhasil!")
 
     simpan_user_baru(username_baru, password_baru, role_final)
-    print(f"\nAkun tersimpan ke CSV → {FILE_USERS}")
+    print(f"\nAkun tersimpan ke CSV → {dfusers}")
 
 if __name__ == "__main__":
     mulai_registrasi()
